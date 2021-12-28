@@ -196,6 +196,66 @@ client.on("message", msg => {
             end: new Date() + 10000
         }
     }
+
+    if (msg.content.includes("!lv avatar")) {
+        msg.channel.send(msg.author.avatarURL)
+    }
+
+    if (new Date().getDate() === 1 && new Date().getMonth() === 4) {
+        msg.channel.send("Happy April Fools Day!")
+    }
+
+    if (msg.content.includes("!lv play")) {
+        if (msg.member.voiceChannel) {
+            if (msg.content.includes("https://www.youtube.com/watch?v=")) {
+                msg.member.voiceChannel.join()
+                    .then(connection => {
+                        const stream = ytdl(msg.content, { filter: 'audioonly' });
+                        const dispatcher = connection.playStream(stream);
+                        dispatcher.on('end', () => {
+                            msg.member.voiceChannel.leave()
+                        });
+                    })
+            } else {
+                msg.member.voiceChannel.join()
+                    .then(connection => {
+                        const stream = ytdl(`https://www.youtube.com/results?search_query=${msg.content}`, { filter: 'audioonly' });
+                        const dispatcher = connection.playStream(stream);
+                        dispatcher.on('end', () => {
+                            msg.member.voiceChannel.leave()
+                        });
+                    })
+            }
+        } else {
+            msg.channel.send("You have to be in a voice channel!")
+        }
+    }
+
+    if (msg.content.includes("!lv mute")) {
+        if (msg.author.id === "639796880884827648") {
+            msg.channel.send("```Who do you want to mute?```")
+            const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 60000 });
+            collector.on('collect', message => {
+                if (message.content.includes("!lv mute")) {
+                    msg.channel.send("```You have to add a user!```")
+                } else {
+                    msg.channel.send("```You have muted " + message.content + "!```")
+                    msg.guild.member(message.mentions.users.first()).setMute(true);
+                }
+            })
+        } else {
+            msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
+
+    if (msg.content.includes("!lv stop")) {
+        if (msg.author.id === "639796880884827648") {
+            msg.channel.send("```Bot stopped!```")
+            msg.member.voiceChannel.leave()
+        } else {
+            msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
 })
 
 client.login(process.env.DISCORD_TOKEN);
