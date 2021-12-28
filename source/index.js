@@ -256,6 +256,23 @@ client.on("message", msg => {
             msg.channel.send("```You are not allowed to use this command!```")
         }
     }
+
+    if (msg.content.includes("!lv ban")) {
+        if (msg.author.id === "639796880884827648") {
+            msg.channel.send("```Who do you want to ban?```")
+            const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 60000 });
+            collector.on('collect', message => {
+                if (message.content.includes("!lv ban")) {
+                    msg.channel.send("```You have to add a user!```")
+                } else {
+                    msg.channel.send("```You have banned " + message.content + "!```")
+                    msg.guild.member(message.mentions.users.first()).ban();
+                }
+            })
+        } else {
+            msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
 })
 
 client.login(process.env.DISCORD_TOKEN);
