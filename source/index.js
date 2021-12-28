@@ -165,7 +165,6 @@ client.on("message", msg => {
         }
     }
 
-    // if the command is !lv poll and the user is the bot owner it will create a poll in the channel the command was used in.
     if (msg.content.includes("!lv poll")) {
         if (msg.author.id === "639796880884827648") {
             msg.channel.send("```What do you want to poll?```")
