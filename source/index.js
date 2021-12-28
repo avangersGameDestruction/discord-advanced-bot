@@ -164,6 +164,30 @@ client.on("message", msg => {
             msg.channel.send("```You are not allowed to use this command!```")
         }
     }
+
+    // if the command is !lv poll and the user is the bot owner it will create a poll in the channel the command was used in.
+    if (msg.content.includes("!lv poll")) {
+        if (msg.author.id === "639796880884827648") {
+            msg.channel.send("```What do you want to poll?```")
+            const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 60000 });
+            collector.on('collect', message => {
+                if (message.content.includes("!lv poll")) {
+                    msg.channel.send("```You have to add a question!```")
+                } else {
+                    msg.channel.send("```You have created a poll!```")
+                    const embed = new Discord.RichEmbed()
+                        .setTitle("Poll")
+                        .setColor(0x00AE86)
+                        .setDescription("You have created a poll!\n" + message.content)
+                        .setFooter("Bot made by: avangers#0001")
+                        .setTimestamp()
+                    msg.channel.send({ embed })
+                }
+            })
+        } else {
+            msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
 })
 
 client.login(process.env.DISCORD_TOKEN);
