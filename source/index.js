@@ -141,6 +141,29 @@ client.on("message", msg => {
             msg.channel.send("```You are not allowed to use this command!```")
         }
     }
+
+    if (msg.content.includes("!lv share")) {
+        if (msg.author.id === "639796880884827648") {
+            msg.channel.send("```What do you want to share?```")
+            const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 60000 });
+            collector.on('collect', message => {
+                if (message.content.includes("!lv share")) {
+                    msg.channel.send("```You have to add a link!```")
+                } else {
+                    msg.channel.send("```You have shared " + message.content + "!```")
+                    const embed = new Discord.RichEmbed()
+                        .setTitle("Shared link")
+                        .setColor(0x00AE86)
+                        .setDescription("You have shared " + message.content + "!")
+                        .setFooter("Bot made by: avangers#0001")
+                        .setTimestamp()
+                    msg.channel.send({ embed })
+                }
+            })
+        } else {
+            msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
 })
 
 client.login(process.env.DISCORD_TOKEN);
