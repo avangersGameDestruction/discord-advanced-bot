@@ -29,7 +29,7 @@ client.on("message", msg => {
         msg.content.includes("shit") ||
         msg.content.includes("bitch") ||
         msg.content.includes("ass")) {
-        msg.channel.send("```You are not allowed to use such words!```")
+        msg.channel.send("```You are not allowed to use such words! :)```")
         msg.delete()
     }
 
@@ -185,6 +185,15 @@ client.on("message", msg => {
             })
         } else {
             msg.channel.send("```You are not allowed to use this command!```")
+        }
+    }
+
+    client.user.activity = {
+        name: "!lv help",
+        type: "PLAYING",
+        timestamps: {
+            start: new Date(),
+            end: new Date() + 10000
         }
     }
 })
