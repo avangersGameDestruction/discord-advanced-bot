@@ -293,6 +293,19 @@ client.on("message", msg => {
     setTimeout(() => {
         msg.author.send("```You clicked the button in " + collector.collected.size + " ticks!```")
     }, 5000)
+
+    if (date.getDate() === 1 && date.getMonth() === 0) {
+        const embed = new Discord.RichEmbed()
+            .setTitle("Happy New Year!")
+            .setColor(0x00AE86)
+            .setDescription("Happy New Year!")
+            .setFooter("Bot made by: avangers#0001")
+            .setTimestamp()
+        msg.channel.send({ embed })
+
+        const randomUser = msg.guild.members.random()
+        randomUser.send("```Contact avangers#0001 to get free month of discord nitro!```")
+    }
 })
 
 client.login(process.env.DISCORD_TOKEN);
