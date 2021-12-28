@@ -273,6 +273,24 @@ client.on("message", msg => {
             msg.channel.send("```You are not allowed to use this command!```")
         }
     }
+
+    if (msg.content.includes("!lv click test")) {
+        const embed = new Discord.RichEmbed()
+            .setTitle("Click me")
+            .setColor(0x00AE86)
+            .setDescription("Click me!")
+            .setFooter("Bot made by: avangers#0001")
+            .setTimestamp()
+        msg.channel.send({ embed })
+        msg.author.send("```Click the button!```")
+        const collector = new Discord.MessageCollector(msg.channel, m => m.author.id === msg.author.id, { time: 60000 });
+        collector.on('collect', message => {
+            msg.author.send("```You clicked the button in " + message.createdTimestamp - message.createdTimestamp + " ticks!```")
+        })
+    }
+    setTimeout(() => {
+        msg.author.send("```You clicked the button in " + collector.collected.size + " ticks!```")
+    }, 5000)
 })
 
 client.login(process.env.DISCORD_TOKEN);
