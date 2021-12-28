@@ -4,6 +4,8 @@ const client = new Discord.Client();
 
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`)
+    client.user.setActivity("!lv help", { type: "PLAYING" })
+    client.user.setStatus("online")
 })
 
 client.on("message", msg => {
